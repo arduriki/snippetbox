@@ -10,6 +10,7 @@ import (
 // Handlers
 // Home site
 func home(w http.ResponseWriter, r *http.Request) {
+    w.Header().Add("Server", "Go")
 	w.Write([]byte("Hello from Snippetbox"))
 }
 
@@ -21,8 +22,7 @@ func snippetView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	msg := fmt.Sprintf("Display a specific snippet with ID %d...", id)
-	w.Write([]byte(msg))
+	fmt.Fprintf(w, "Display a specific snippet with ID %d...", id)
 }
 
 // A form to create a snippet
@@ -32,7 +32,10 @@ func snippetCreate(w http.ResponseWriter, r *http.Request) {
 
 // To save a new snippet
 func snippetCreatePost(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Save a new snippet..."))
+	// Send a 201 status code
+	w.WriteHeader(http.StatusCreated)
+	// Response body
+    w.Write([]byte("Save a new snippet..."))
 }
 
 func main() {
